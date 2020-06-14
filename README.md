@@ -1,4 +1,4 @@
-# eco_coleta_flutter
+# Charity app
 
 A new Flutter project.
 
