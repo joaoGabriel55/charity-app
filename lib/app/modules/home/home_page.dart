@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:eco_coleta_flutter/app/modules/home/components/filter_event_bar.dart';
+import 'package:eco_coleta_flutter/app/modules/home/components/new_event_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -20,6 +22,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
   Position _userLocation;
   String _currentAddress;
+  final Map<String, Marker> _markers = {};
 
   @override
   void initState() {
@@ -30,7 +33,7 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
   CameraPosition currentMapPosition() {
     CameraPosition position = CameraPosition(
       target: LatLng(_userLocation.latitude, _userLocation.longitude),
-      zoom: 14.4746,
+      zoom: 18.4746,
     );
     return position;
   }
@@ -65,58 +68,64 @@ class _HomePageState extends ModularState<HomePage, HomeController> {
     }
   }
 
-  dialog(context, address) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.0)), //this right here
-      child: Container(
-        height: 300.0,
-        width: 300.0,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Container(
-              alignment: Alignment(0.0, 0.0),
-              child: Text(
-                address,
-                style: TextStyle(fontSize: 12.0),
-              ),
-            ),
-            FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  'Got It!',
-                  style: TextStyle(color: Colors.blue[900], fontSize: 16.0),
-                ))
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _userLocation == null
           ? Container(
               alignment: Alignment.center, child: CircularProgressIndicator())
-          : GoogleMap(
-              mapType: MapType.normal,
-              initialCameraPosition: currentMapPosition(),
-              onMapCreated: (GoogleMapController controller) {
-                _controller.complete(controller);
-              },
-              onLongPress: (value) {
-                _getAddressFromLatLng(value.latitude, value.longitude);
-                if (_currentAddress != null)
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) =>
-                          dialog(context, _currentAddress));
-              },
+          : Stack(
+              children: [
+                GoogleMap(
+                  mapType: MapType.normal,
+                  markers: _markers.values.toSet(),
+                  initialCameraPosition: currentMapPosition(),
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller.complete(controller);
+                  },
+                  onLongPress: (value) {
+                    _getAddressFromLatLng(value.latitude, value.longitude);
+                    if (_currentAddress != null)
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) => NewEventDialog(
+                          address: _currentAddress,
+                          saveEvent: () {
+                            print("Ok");
+                            setState(() {
+                              _markers.clear();
+                              final marker = Marker(
+                                markerId: MarkerId("curr_loc"),
+                                position: LatLng(
+                                  value.latitude,
+                                  value.longitude,
+                                ),
+                                infoWindow: InfoWindow(title: _currentAddress),
+                              );
+                              _markers["Current Location"] = marker;
+                            });
+                          },
+                        ),
+                      );
+                  },
+                ),
+                FilterEventBar()
+              ],
             ),
+      floatingActionButton: Container(
+        height: 70.0,
+        width: 70.0,
+        child: FittedBox(
+          child: FloatingActionButton(
+            onPressed: () {},
+            backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Colors.white,
+            child: Icon(Icons.search),
+            tooltip: "Pesquisar evento",
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 }

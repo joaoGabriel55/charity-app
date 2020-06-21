@@ -54,8 +54,10 @@ flutter:
 scripts: 
 
     mobx_watch: flutter clean & flutter pub get & flutter pub run build_runner watch --delete-conflicting-outputs
-
     mobx_build: flutter clean & flutter pub get & flutter pub run build_runner build --delete-conflicting-outputs
+    
+    android-build: flutter build apk --split-per-abi
+    android-install: flutter install
 
   # To add assets to your application, add an assets section, like this:
   # assets:
