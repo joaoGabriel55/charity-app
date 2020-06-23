@@ -10,7 +10,7 @@ class AppWidget extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primaryColor: Colors.blueAccent.withRed(57).withGreen(101).withBlue(255),
-        accentColor: Colors.blueAccent.withRed(57).withGreen(184).withBlue(0),
+        accentColor: Colors.blueAccent.withRed(57).withGreen(184).withBlue(255),
       ),
       initialRoute: '/',
       onGenerateRoute: Modular.generateRoute,

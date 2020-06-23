@@ -24,32 +24,32 @@ class _FilterEventBarState extends State<FilterEventBar> {
                   bottomLeft: Radius.circular(0),
                   bottomRight: Radius.circular(0))),
           child: Container(
-            margin: EdgeInsets.all(18),
-            child: Row(
-              children: <Widget>[
-                Container(width: 18),
-                FilterEventButton(
-                  onPressed: () {},
-                  color: Colors.yellow[700],
-                ),
-                Container(width: 18),
-                FilterEventButton(
-                  onPressed: () {},
-                  color: Colors.green[700],
-                ),
-                Container(width: 18),
-                FilterEventButton(
-                  onPressed: () {},
-                  color: Colors.purpleAccent[700],
-                ),
-                Container(width: 18),
-                FilterEventButton(
-                  onPressed: () {},
-                  color: Colors.blue[700],
-                ),
-              ],
-            ),
-          )),
+              child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: <Widget>[
+              Container(width: 18),
+              FilterEventButton(
+                onPressed: () {},
+                color: Colors.yellow[700],
+              ),
+              Container(width: 18),
+              FilterEventButton(
+                onPressed: () {},
+                color: Colors.green[700],
+              ),
+              Container(width: 18),
+              FilterEventButton(
+                onPressed: () {},
+                color: Colors.purpleAccent[700],
+              ),
+              Container(width: 18),
+              FilterEventButton(
+                onPressed: () {},
+                color: Colors.blue[700],
+              ),
+              Container(width: 8),
+            ],
+          ))),
     );
   }
 }

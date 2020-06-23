@@ -4,10 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:eco_coleta_flutter/app/app_widget.dart';
 import 'package:eco_coleta_flutter/app/modules/home/home_module.dart';
 
+import 'modules/home/home_controller.dart';
+
 class AppModule extends MainModule {
   @override
   List<Bind> get binds => [
         Bind((i) => AppController()),
+        Bind((i) => HomeController()),
       ];
 
   @override
