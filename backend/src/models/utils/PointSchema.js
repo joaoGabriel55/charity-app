@@ -1,5 +1,12 @@
 const mongoose = require('mongoose')
 
+const getPointLocationSchema = (latitude, longitude) => {
+    return {
+        type: 'Point',
+        coordinates: [longitude, latitude]
+    }
+}
+
 const PointSchema = new mongoose.Schema({
     type: {
         type: String,
@@ -12,4 +19,4 @@ const PointSchema = new mongoose.Schema({
     }
 })
 
-module.exports = PointSchema
+module.exports = { PointSchema, getPointLocationSchema }

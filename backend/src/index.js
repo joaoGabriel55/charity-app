@@ -10,10 +10,10 @@ const app = express()
 
 const server = http.Server(app)
 
-setupWebSocket(server)
+// setupWebSocket(server)
 
 // TODO: get from a .env file
-mongoose.connect('mongodb+srv://omnistack:omnistack@cluster0-megep.mongodb.net/week10?retryWrites=true&w=majority', {
+mongoose.connect('mongodb://localhost:27017/charity', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })

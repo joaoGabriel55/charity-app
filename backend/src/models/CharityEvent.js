@@ -1,13 +1,18 @@
 const mongoose = require('mongoose')
-const PointSchema = require('./utils/PointSchema')
+const moment = require('moment-timezone');
+
+const { PointSchema } = require('./utils/PointSchema')
+
+const dateBrazil = moment.tz(Date.now(), 'America/Sao_Paulo')
 
 const CharityEventSchema = new mongoose.Schema({
     userId: String,
     name: String,
     description: String,
-    photos_urls: [String],
-    startDate: Date,
-    endDate: Date,
+    type: String,
+    photosUrls: [String],
+    startDate: { type: Date, default: dateBrazil },
+    endDate: { type: Date, default: dateBrazil },
     eventDays: {
         weekDay: [String],
         startDate: Date,
